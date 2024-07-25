@@ -11,7 +11,7 @@ struct ComposeView: UIViewControllerRepresentable {
     }
 
     private func mainViewFactory(viewModel: CountViewModel) -> UIViewController {
-       let swiftUIView = CountView(viewModel: viewModel)
+        let swiftUIView = SampleFormView(viewModel: viewModel)
        return UIHostingController(rootView: swiftUIView)
    }
 }
