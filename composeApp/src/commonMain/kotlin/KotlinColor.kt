@@ -1,6 +1,5 @@
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.skia.Surface
 
 data class KotlinColor(
     val red: Double = 0.0,
@@ -23,6 +22,7 @@ data class KotlinColorScheme(
     val onPrimaryContainer: KotlinColor,
     val surface: KotlinColor,
     val onSurface: KotlinColor,
+    val secondary: KotlinColor,
 )
 
 fun ColorScheme.toKotlinColorScheme() = KotlinColorScheme(
@@ -31,5 +31,6 @@ fun ColorScheme.toKotlinColorScheme() = KotlinColorScheme(
     primaryContainer = this.primaryContainer.toKotlinColor(),
     onPrimaryContainer = this.onPrimaryContainer.toKotlinColor(),
     surface = this.surface.toKotlinColor(),
-    onSurface = this.onSurface.toKotlinColor()
+    onSurface = this.onSurface.toKotlinColor(),
+    secondary = this.secondary.toKotlinColor()
 )
