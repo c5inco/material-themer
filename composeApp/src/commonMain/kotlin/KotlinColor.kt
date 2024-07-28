@@ -8,6 +8,13 @@ data class KotlinColor(
     val alpha: Double = 1.0
 )
 
+fun KotlinColor.toColor() = Color(
+    red = this.red.toFloat(),
+    green = this.green.toFloat(),
+    blue = this.blue.toFloat(),
+    alpha = this.alpha.toFloat()
+)
+
 fun Color.toKotlinColor() = KotlinColor(
     red = this.red.toDouble(),
     green = this.green.toDouble(),
