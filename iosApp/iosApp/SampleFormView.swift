@@ -2,20 +2,24 @@ import SwiftUI
 import ComposeApp
 
 struct SampleFormView: View {
-    var viewModel: CountViewModel
+    @Environment(\.colorScheme) var iosColorScheme
+    var viewModel: ThemeViewModel
 
     @State var enableLogging = true
     @State private var index = 0
     @State var stepper = 1
     @State var name = ""
     @State var colors = ["Red", "Green", "Blue"]
+    @State var seedIndex = 0
 
     var body: some View {
-        Observing(viewModel.colorScheme) { colorScheme in
+        Observing (viewModel.activeSeedColor) { activeColor in
+            let colorScheme = viewModel.getDynamicColorScheme(isDark: iosColorScheme == .dark)
             let surface = colorScheme.surface
+            let surfaceContainerLowest = colorScheme.surfaceContainer
             let primary = colorScheme.primary
             let secondary = colorScheme.secondary
-            
+
             NavigationStack {
                 VStack {
                     Form {
@@ -30,36 +34,36 @@ struct SampleFormView: View {
                                 }
                             }
                             .pickerStyle(.navigationLink)
-                            
+
                             Picker("Title", selection: $index) {
                                 ForEach(colors, id: \.self) { option in
                                     Text(option)
                                 }
                             }
                             .pickerStyle(.navigationLink)
-                            
+
                             HStack {
                                 Text("Title")
                                 Spacer()
                                 Image(systemName: "info.circle")
                                     .imageScale(.large)
-                                    .foregroundStyle(.tint)
+                                    .foregroundColor(toSwiftUiColor(kotlinColor: primary))
                             }
                             HStack {
                                 Text("Title")
                                 Spacer()
                                 Image(systemName: "star")
                                     .imageScale(.large)
-                                    .foregroundStyle(.tint)
+                                    .foregroundColor(toSwiftUiColor(kotlinColor: primary))
                             }
                             HStack {
                                 Text("Title")
                                 Spacer()
                                 Image(systemName: "checkmark")
                                     .imageScale(.large)
-                                    .foregroundStyle(.tint)
+                                    .foregroundColor(toSwiftUiColor(kotlinColor: primary))
                             }
-                            
+
                             Picker("Title", selection: $index) {
                                 ForEach(colors, id: \.self) { option in
                                     Text(option)
@@ -67,33 +71,57 @@ struct SampleFormView: View {
                             }
                             .pickerStyle(.navigationLink)
                         }
-                        
+                        .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainerLowest))
+
                         Section {
                             Stepper("Title", value: $stepper)
                             Toggle(isOn: $enableLogging) {
                                 Text("Title")
                             }
-                            .tint(Color(red: secondary.red, green: secondary.green, blue: secondary.blue))
+                            .tint(toSwiftUiColor(kotlinColor: secondary))
                         }
+                        .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainerLowest))
+
                         Button("Action") { }
+                            .foregroundColor(toSwiftUiColor(kotlinColor: primary))
                     }
                     .scrollContentBackground(.hidden)
                 }
                 .toolbar {
                     ToolbarItem(placement: .primaryAction) {
-                        Image(systemName: "visionpro")
-                            .imageScale(.large)
-                            .foregroundColor(Color(red: primary.red, green: primary.green, blue: primary.blue))
+                        Button(action: {
+                            viewModel.updateSeedColor(index: 2)
+                        }) {
+                            Image(systemName: "visionpro")
+                                .imageScale(.large)
+                                .foregroundColor(toSwiftUiColor(kotlinColor: primary))
+                        }
                     }
                     ToolbarItem(placement: .topBarLeading) {
-                        Image(systemName: "person.crop.circle")
-                            .imageScale(.large)
-                            .foregroundColor(Color(red: primary.red, green: primary.green, blue: primary.blue))
+                        Button(action: {
+                            viewModel.updateSeedColor(index: 3)
+                        }) {
+                            Image(systemName: "person.crop.circle")
+                                .imageScale(.large)
+                                .foregroundColor(toSwiftUiColor(kotlinColor: primary))
+                        }
                     }
                 }
                 .navigationTitle("Inset Lists")
-                .background(Color(red: surface.red, green: surface.green, blue: surface.blue))
+                .background(toSwiftUiColor(kotlinColor: surface))
             }
         }
     }
+    
+    private func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
+        return Color(
+            red: kotlinColor.red,
+            green: kotlinColor.green,
+            blue: kotlinColor.blue
+        )
+    }
+}
+
+#Preview {
+    SampleFormView(viewModel: ThemeViewModel(isDark: false))
 }
