@@ -21,10 +21,11 @@ class ThemeViewModel(
     private val _paletteStyle = MutableStateFlow(PaletteStyle.TonalSpot)
 
     fun getDynamicColorScheme(
+        seedColor: KotlinColor,
         isDark: Boolean
     ): KotlinColorScheme {
         return dynamicColorScheme(
-            seedColor = activeSeedColor.value,
+            seedColor = seedColor.toColor(),
             isDark = isDark,
             isAmoled = false,
             style = _paletteStyle.value
