@@ -27,97 +27,108 @@ struct SampleFormView: View {
         let surfaceContainer = colorScheme.surfaceContainer
         let primary = colorScheme.primary
         let secondary = colorScheme.secondary
-
-        NavigationStack {
-            VStack {
-                Form {
-                    TextField("Search", text: $name)
-                    Section(
-                        header: Text("Header Text"),
-                        footer: Text("Footer")
-                    ) {
-                        Picker("Title", selection: $index) {
-                            ForEach(colors, id: \.self) { option in
-                                Text(option)
+        
+        TabView {
+            Group {
+                VStack {
+                    NavigationStack {
+                        VStack {
+                            Form {
+                                TextField("Search", text: $name)
+                                Section {
+                                    Text("Title")
+                                }
+                                
+                                Section(
+                                    header: Text("Header Text"),
+                                    footer: Text("Footer")
+                                ) {
+                                    Picker("Title", selection: $index) {
+                                        ForEach(colors, id: \.self) { option in
+                                            Text(option)
+                                        }
+                                    }
+                                    .pickerStyle(.navigationLink)
+                                    
+                                    HStack {
+                                        Text("Title")
+                                        Spacer()
+                                        Image(systemName: "info.circle")
+                                            .imageScale(.large)
+                                            .foregroundStyle(.tint)
+                                    }
+                                    HStack {
+                                        Text("Title")
+                                        Spacer()
+                                        Image(systemName: "star")
+                                            .imageScale(.large)
+                                            .foregroundStyle(.tint)
+                                    }
+                                    HStack {
+                                        Text("Title")
+                                        Spacer()
+                                        Image(systemName: "checkmark")
+                                            .imageScale(.large)
+                                            .foregroundStyle(.tint)
+                                    }
+                                }
+                                .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
+                                
+                                Section {
+                                    Stepper("Title", value: $stepper)
+                                    Toggle(isOn: $enableLogging) {
+                                        Text("Title")
+                                    }
+                                    .tint(toSwiftUiColor(kotlinColor: secondary))
+                                }
+                                .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
+                                
+                                Button("Action") { }
+                            }
+                            .scrollContentBackground(.hidden)
+                        }
+                        .toolbar {
+                            ToolbarItem(placement: .primaryAction) {
+                                Button(action: {
+                                    seedIndex = 2
+                                }) {
+                                    Image(systemName: "visionpro")
+                                        .imageScale(.large)
+                                }
+                            }
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(action: {
+                                    seedIndex = 3
+                                }) {
+                                    Image(systemName: "person.crop.circle")
+                                        .imageScale(.large)
+                                }
                             }
                         }
-                        .pickerStyle(.navigationLink)
-
-                        Picker("Title", selection: $index) {
-                            ForEach(colors, id: \.self) { option in
-                                Text(option)
-                            }
-                        }
-                        .pickerStyle(.navigationLink)
-
-                        HStack {
-                            Text("Title")
-                            Spacer()
-                            Image(systemName: "info.circle")
-                                .imageScale(.large)
-                                .foregroundColor(toSwiftUiColor(kotlinColor: primary))
-                        }
-                        HStack {
-                            Text("Title")
-                            Spacer()
-                            Image(systemName: "star")
-                                .imageScale(.large)
-                                .foregroundColor(toSwiftUiColor(kotlinColor: primary))
-                        }
-                        HStack {
-                            Text("Title")
-                            Spacer()
-                            Image(systemName: "checkmark")
-                                .imageScale(.large)
-                                .foregroundColor(toSwiftUiColor(kotlinColor: primary))
-                        }
-
-                        Picker("Title", selection: $index) {
-                            ForEach(colors, id: \.self) { option in
-                                Text(option)
-                            }
-                        }
-                        .pickerStyle(.navigationLink)
+                        .navigationTitle("Inset Lists")
+                        .background(toSwiftUiColor(kotlinColor: surface))
                     }
-                    .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
-
-                    Section {
-                        Stepper("Title", value: $stepper)
-                        Toggle(isOn: $enableLogging) {
-                            Text("Title")
-                        }
-                        .tint(toSwiftUiColor(kotlinColor: secondary))
-                    }
-                    .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
-
-                    Button("Action") { }
-                        .foregroundColor(toSwiftUiColor(kotlinColor: primary))
+                }.tabItem {
+                    Label("Form", systemImage: "gear")
                 }
-                .scrollContentBackground(.hidden)
+                
+                VStack {
+                    Text("Show list here")
+                }
+                .tabItem {
+                    Label("Cards", systemImage: "person.text.rectangle")
+                }
+                
+                VStack {
+                    Text("Show palettes here")
+                }.tabItem {
+                    Label("Palettes", systemImage: "square.3.layers.3d.down.right")
+                }
+                .background(toSwiftUiColor(kotlinColor: surface))
             }
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button(action: {
-                        seedIndex = 2
-                    }) {
-                        Image(systemName: "visionpro")
-                            .imageScale(.large)
-                            .foregroundColor(toSwiftUiColor(kotlinColor: primary))
-                    }
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        seedIndex = 3
-                    }) {
-                        Image(systemName: "person.crop.circle")
-                            .imageScale(.large)
-                            .foregroundColor(toSwiftUiColor(kotlinColor: primary))
-                    }
-                }
-            }
-            .navigationTitle("Inset Lists")
-            .background(toSwiftUiColor(kotlinColor: surface))
+            .toolbarBackground(.visible, for: .tabBar)
         }
+        .accentColor(toSwiftUiColor(kotlinColor: primary))
     }
     
     private func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
