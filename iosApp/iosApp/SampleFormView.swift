@@ -26,11 +26,12 @@ struct SampleFormView: View {
     @State var name = ""
     @State var colors = ["Red", "Green", "Blue"]
     @State var activeSeedColor: KotlinColor = seedColors[0]
-    @State var seedIndex = 0
+    @State var activePaletteStyle: Material_kolorPaletteStyle = .tonalSpot
     
     var body: some View {
         let colorScheme = viewModel.getDynamicColorScheme(
             seedColor: activeSeedColor,
+            paletteStyle: activePaletteStyle,
             isDark: iosColorScheme == .dark
         )
         let surface = colorScheme.surface
@@ -97,7 +98,12 @@ struct SampleFormView: View {
                             .scrollContentBackground(.hidden)
                         }
                         .toolbar {
-                            ToolbarView(action: updateActiveSeedColor, selectedColor: activeSeedColor)
+                            ToolbarView(
+                                selectedColor: activeSeedColor,
+                                selectedStyle: activePaletteStyle,
+                                onColorSelect: updateActiveSeedColor,
+                                onStyleSelect: updateActivePaletteStyle
+                            )
                         }
                         .navigationTitle("Sample form")
                         .background(toSwiftUiColor(kotlinColor: surface))
@@ -126,18 +132,30 @@ struct SampleFormView: View {
     }
     
     func updateActiveSeedColor(color: KotlinColor) {
-        print(color)
         activeSeedColor = color
+    }
+    
+    func updateActivePaletteStyle(style: Material_kolorPaletteStyle) {
+        activePaletteStyle = style
     }
 }
 
 struct ToolbarView: ToolbarContent {
-    let action: (KotlinColor) -> Void
     @State var selectedColor: KotlinColor
+    let selectedStyle: Material_kolorPaletteStyle
+    let onColorSelect: (KotlinColor) -> Void
+    let onStyleSelect: (Material_kolorPaletteStyle) -> Void
 
-    init(action: @escaping (KotlinColor) -> Void, selectedColor: KotlinColor) {
-        self.action = action
+    init(
+        selectedColor: KotlinColor,
+        selectedStyle: Material_kolorPaletteStyle,
+        onColorSelect: @escaping (KotlinColor) -> Void,
+        onStyleSelect: @escaping (Material_kolorPaletteStyle) -> Void
+    ) {
         self.selectedColor = selectedColor
+        self.selectedStyle = selectedStyle
+        self.onColorSelect = onColorSelect
+        self.onStyleSelect = onStyleSelect
     }
     
     var body: some ToolbarContent {
@@ -152,8 +170,20 @@ struct ToolbarView: ToolbarContent {
                   .pickerStyle(.palette)
                   .menuActionDismissBehavior(.enabled)
                   .onChange(of: selectedColor) { _, newColor in
-                      action(newColor)
+                      onColorSelect(newColor)
                   }
+                
+                ForEach(Material_kolorPaletteStyle.allCases, id: \.self) { style in
+                    Button(action: {
+                        onStyleSelect(style)
+                    }) {
+                        if (selectedStyle == style) {
+                            Label("\(style)", systemImage: "checkmark")
+                        } else {
+                            Text("\(style)")
+                        }
+                    }
+                }
             } label: {
                 Image(systemName: "swatchpalette.fill")
                     .imageScale(.large)
