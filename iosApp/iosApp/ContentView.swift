@@ -6,9 +6,10 @@ struct ContentView: View {
     @Environment(\.colorScheme) var iosColorScheme
 
     var body: some View {
-        SampleFormView(viewModel: ThemeViewModel(isDark: iosColorScheme == .dark)).ignoresSafeArea()
+        SampleFormView(viewModel: ThemeViewModel(isDark: iosColorScheme == .dark))
     }
 }
 
-
-
+#Preview {
+    ContentView()
+}
