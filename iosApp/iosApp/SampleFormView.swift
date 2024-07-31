@@ -6,6 +6,8 @@ let seedColors = [
     KotlinColor(red: 0.3882352941, green: 0.6274509804, blue: 0.007843137255, alpha: 1.0),
     KotlinColor(red: 0.462745098, green: 0.6117647059, blue: 0.8745098039, alpha: 1.0),
     KotlinColor(red: 1.0, green: 0.8705882353, blue: 0.2470588235, alpha: 1.0),
+    KotlinColor(red: 0.2745098039, green: 0.2392156863, blue: 0.8745098039, alpha: 1.0),
+    KotlinColor(red: 0.9529411765, green: 0.09411764706, blue: 0.7843137255, alpha: 1.0)
 ]
 
 func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
@@ -19,7 +21,8 @@ func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
 struct SampleFormView: View {
     @Environment(\.colorScheme) var iosColorScheme
     @State var viewModel: ThemeViewModel
-
+    
+    @State private var tabSelection = 1
     @State var enableLogging = true
     @State private var index = 0
     @State var stepper = 1
@@ -38,7 +41,7 @@ struct SampleFormView: View {
         let surfaceContainer = colorScheme.surfaceContainer
         let primary = colorScheme.primary
         
-        TabView {
+        TabView(selection: $tabSelection) {
             Group {
                 VStack {
                     NavigationStack {
@@ -111,6 +114,7 @@ struct SampleFormView: View {
                 }.tabItem {
                     Label("Form", systemImage: "gear")
                 }
+                .tag(1)
                 
                 VStack {
                     Text("Show list here")
@@ -118,13 +122,14 @@ struct SampleFormView: View {
                 .tabItem {
                     Label("Cards", systemImage: "person.text.rectangle")
                 }
+                .tag(2)
                 
                 VStack {
                     Text("Show palettes here")
                 }.tabItem {
                     Label("Palettes", systemImage: "square.3.layers.3d.down.right")
                 }
-                .background(toSwiftUiColor(kotlinColor: surface))
+                .tag(3)
             }
             .toolbarBackground(.visible, for: .tabBar)
         }
@@ -163,11 +168,13 @@ struct ToolbarView: ToolbarContent {
             Menu {
                 Picker("Color Palette", selection: $selectedColor) {
                     ForEach(seedColors, id: \.self) { seedColor in
-                        Image(systemName: "circle.fill")
+                        Image(systemName: selectedColor == seedColor ? "checkmark.circle.fill" : "circle.fill")
                             .tint(toSwiftUiColor(kotlinColor: seedColor))
+                            .tag(seedColor)
                     }
                   }
                   .pickerStyle(.palette)
+                  .paletteSelectionEffect(.custom)
                   .menuActionDismissBehavior(.enabled)
                   .onChange(of: selectedColor) { _, newColor in
                       onColorSelect(newColor)
@@ -193,7 +200,7 @@ struct ToolbarView: ToolbarContent {
             Button(action: {
                 
             }) {
-                Image(systemName: "person.crop.circle")
+                Image(systemName: "visionpro")
                     .imageScale(.large)
             }
         }
