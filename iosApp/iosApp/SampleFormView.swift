@@ -108,7 +108,7 @@ struct SampleFormView: View {
                                 onStyleSelect: updateActivePaletteStyle
                             )
                         }
-                        .navigationTitle("\(activePaletteStyle) form")
+                        .navigationTitle("Sample form")
                         .background(toSwiftUiColor(kotlinColor: surface))
                     }
                 }.tabItem {
@@ -116,19 +116,8 @@ struct SampleFormView: View {
                 }
                 .tag(1)
                 
-                NavigationStack {
-                    CardsView(colorScheme: colorScheme)
-                    .toolbar {
-                        ToolbarView(
-                            selectedColor: activeSeedColor,
-                            selectedStyle: activePaletteStyle,
-                            onColorSelect: updateActiveSeedColor,
-                            onStyleSelect: updateActivePaletteStyle
-                        )
-                    }
-                    .navigationTitle("\(activePaletteStyle) cards")
-                    .background(toSwiftUiColor(kotlinColor: surface))
-                    
+                VStack {
+                    Text("Show list here")
                 }
                 .tabItem {
                     Label("Cards", systemImage: "person.text.rectangle")
