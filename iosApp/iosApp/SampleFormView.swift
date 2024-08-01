@@ -22,7 +22,7 @@ struct SampleFormView: View {
     @Environment(\.colorScheme) var iosColorScheme
     @State var viewModel: ThemeViewModel
     
-    @State private var tabSelection = 1
+    @State private var tabSelection = 2
     @State var enableLogging = true
     @State private var index = 0
     @State var stepper = 1
@@ -108,7 +108,7 @@ struct SampleFormView: View {
                                 onStyleSelect: updateActivePaletteStyle
                             )
                         }
-                        .navigationTitle("Sample form")
+                        .navigationTitle("\(activePaletteStyle) form")
                         .background(toSwiftUiColor(kotlinColor: surface))
                     }
                 }.tabItem {
@@ -116,8 +116,19 @@ struct SampleFormView: View {
                 }
                 .tag(1)
                 
-                VStack {
-                    Text("Show list here")
+                NavigationStack {
+                    CardsView(colorScheme: colorScheme)
+                    .toolbar {
+                        ToolbarView(
+                            selectedColor: activeSeedColor,
+                            selectedStyle: activePaletteStyle,
+                            onColorSelect: updateActiveSeedColor,
+                            onStyleSelect: updateActivePaletteStyle
+                        )
+                    }
+                    .navigationTitle("\(activePaletteStyle) cards")
+                    .background(toSwiftUiColor(kotlinColor: surface))
+                    
                 }
                 .tabItem {
                     Label("Cards", systemImage: "person.text.rectangle")
