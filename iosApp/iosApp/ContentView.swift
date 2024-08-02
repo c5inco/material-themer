@@ -6,7 +6,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var iosColorScheme
 
     var body: some View {
-        SampleFormView(viewModel: ThemeViewModel(isDark: iosColorScheme == .dark))
+        HomeView(viewModel: ThemeViewModel(isDark: iosColorScheme == .dark))
     }
 }
 

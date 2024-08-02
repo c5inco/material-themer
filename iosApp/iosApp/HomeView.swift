@@ -18,16 +18,11 @@ func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
     )
 }
 
-struct SampleFormView: View {
+struct HomeView: View {
     @Environment(\.colorScheme) var iosColorScheme
     @State var viewModel: ThemeViewModel
     
-    @State private var tabSelection = 2
-    @State var enableLogging = true
-    @State private var index = 0
-    @State var stepper = 1
-    @State var name = ""
-    @State var colors = ["Red", "Green", "Blue"]
+    @State private var tabSelection = 3
     @State var activeSeedColor: KotlinColor = seedColors[0]
     @State var activePaletteStyle: Material_kolorPaletteStyle = .tonalSpot
     
@@ -38,78 +33,23 @@ struct SampleFormView: View {
             isDark: iosColorScheme == .dark
         )
         let surface = colorScheme.surface
-        let surfaceContainer = colorScheme.surfaceContainer
         let primary = colorScheme.primary
         
         TabView(selection: $tabSelection) {
             Group {
                 VStack {
                     NavigationStack {
-                        VStack {
-                            Form {
-                                TextField("Search", text: $name)
-                                Section {
-                                    Text("Title")
-                                }
-                                
-                                Section(
-                                    header: Text("Header Text"),
-                                    footer: Text("Footer")
-                                ) {
-                                    Picker("Title", selection: $index) {
-                                        ForEach(colors, id: \.self) { option in
-                                            Text(option)
-                                        }
-                                    }
-                                    .pickerStyle(.navigationLink)
-                                    
-                                    HStack {
-                                        Text("Title")
-                                        Spacer()
-                                        Image(systemName: "info.circle")
-                                            .imageScale(.large)
-                                            .foregroundStyle(.tint)
-                                    }
-                                    HStack {
-                                        Text("Title")
-                                        Spacer()
-                                        Image(systemName: "star")
-                                            .imageScale(.large)
-                                            .foregroundStyle(.tint)
-                                    }
-                                    HStack {
-                                        Text("Title")
-                                        Spacer()
-                                        Image(systemName: "checkmark")
-                                            .imageScale(.large)
-                                            .foregroundStyle(.tint)
-                                    }
-                                }
-                                .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
-                                
-                                Section {
-                                    Stepper("Title", value: $stepper)
-                                    Toggle(isOn: $enableLogging) {
-                                        Text("Title")
-                                    }
-                                    .tint(toSwiftUiColor(kotlinColor: colorScheme.tertiary))
-                                }
-                                .listRowBackground(toSwiftUiColor(kotlinColor: surfaceContainer))
-                                
-                                Button("Action") { }
+                        FormView(colorScheme: colorScheme)
+                            .toolbar {
+                                ToolbarView(
+                                    selectedColor: activeSeedColor,
+                                    selectedStyle: activePaletteStyle,
+                                    onColorSelect: updateActiveSeedColor,
+                                    onStyleSelect: updateActivePaletteStyle
+                                )
                             }
-                            .scrollContentBackground(.hidden)
-                        }
-                        .toolbar {
-                            ToolbarView(
-                                selectedColor: activeSeedColor,
-                                selectedStyle: activePaletteStyle,
-                                onColorSelect: updateActiveSeedColor,
-                                onStyleSelect: updateActivePaletteStyle
-                            )
-                        }
-                        .navigationTitle("Sample form")
-                        .background(toSwiftUiColor(kotlinColor: surface))
+                            .navigationTitle("\(activePaletteStyle) form")
+                            .background(toSwiftUiColor(kotlinColor: surface))
                     }
                 }.tabItem {
                     Label("Form", systemImage: "gear")
@@ -117,7 +57,19 @@ struct SampleFormView: View {
                 .tag(1)
                 
                 VStack {
-                    Text("Show list here")
+                    NavigationStack {
+                        CardsView(colorScheme: colorScheme)
+                            .toolbar {
+                                ToolbarView(
+                                    selectedColor: activeSeedColor,
+                                    selectedStyle: activePaletteStyle,
+                                    onColorSelect: updateActiveSeedColor,
+                                    onStyleSelect: updateActivePaletteStyle
+                                )
+                            }
+                            .navigationTitle("\(activePaletteStyle) cards")
+                            .background(toSwiftUiColor(kotlinColor: surface))
+                    }
                 }
                 .tabItem {
                     Label("Cards", systemImage: "person.text.rectangle")
@@ -125,13 +77,29 @@ struct SampleFormView: View {
                 .tag(2)
                 
                 VStack {
-                    Text("Show palettes here")
-                }.tabItem {
-                    Label("Palettes", systemImage: "square.3.layers.3d.down.right")
+                    NavigationStack {
+                        PaletteView(colorScheme: colorScheme)
+                            .toolbar {
+                                ToolbarView(
+                                    selectedColor: activeSeedColor,
+                                    selectedStyle: activePaletteStyle,
+                                    onColorSelect: updateActiveSeedColor,
+                                    onStyleSelect: updateActivePaletteStyle
+                                )
+                            }
+                            .navigationTitle("\(activePaletteStyle) palette")
+                            .background(toSwiftUiColor(kotlinColor: colorScheme.surface))
+                    }
+                }
+                .tabItem {
+                    Label("Palette", systemImage: "square.3.layers.3d.down.right")
                 }
                 .tag(3)
             }
             .toolbarBackground(.visible, for: .tabBar)
+            .navigationBarModifier(
+                foregroundColor: UIColor(toSwiftUiColor(kotlinColor: colorScheme.onSurfaceVariant)),
+                tintColor: UIColor(toSwiftUiColor(kotlinColor: colorScheme.onSurfaceVariant)))
         }
         .accentColor(toSwiftUiColor(kotlinColor: primary))
     }
@@ -208,5 +176,5 @@ struct ToolbarView: ToolbarContent {
 }
 
 #Preview {
-    SampleFormView(viewModel: ThemeViewModel(isDark: false))
+    HomeView(viewModel: ThemeViewModel(isDark: false))
 }
