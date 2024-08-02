@@ -9,17 +9,21 @@
 import SwiftUI
 
 struct NavigationBarViewModifier: ViewModifier {
-    init(backgroundColor: UIColor = .systemBackground, foregroundColor: UIColor = .blue, tintColor: UIColor?, withSeparator: Bool = true){
+    init(backgroundColor: UIColor = .systemBackground, foregroundColor: UIColor = .blue, tintColor: UIColor? = nil) {
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.titleTextAttributes = [.foregroundColor: foregroundColor]
             navBarAppearance.largeTitleTextAttributes = [.foregroundColor: foregroundColor]
-            //navBarAppearance.backgroundColor = backgroundColor
-            if withSeparator {
-                navBarAppearance.shadowColor = .clear
-            }
             UINavigationBar.appearance().standardAppearance = navBarAppearance
-            UINavigationBar.appearance().compactAppearance = navBarAppearance
-            UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        
+//            UINavigationBar.appearance().compactAppearance = navBarAppearance
+        
+            let scrollNavBarAppearance = UINavigationBarAppearance()
+            scrollNavBarAppearance.titleTextAttributes = [.foregroundColor: foregroundColor]
+            scrollNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: foregroundColor]
+            scrollNavBarAppearance.backgroundColor = backgroundColor
+            scrollNavBarAppearance.shadowColor = .clear
+            UINavigationBar.appearance().scrollEdgeAppearance = scrollNavBarAppearance
+            
             if let tintColor = tintColor {
                 UINavigationBar.appearance().tintColor = tintColor
             }
@@ -34,10 +38,9 @@ extension View {
     func navigationBarModifier(
         backgroundColor: UIColor = .systemBackground,
         foregroundColor: UIColor = .label,
-        tintColor: UIColor?,
-        withSeparator: Bool = true) -> some View
+        tintColor: UIColor? = nil) -> some View
     {
-        self.modifier(NavigationBarViewModifier(backgroundColor: backgroundColor, foregroundColor: foregroundColor, tintColor: tintColor, withSeparator: withSeparator))
+        self.modifier(NavigationBarViewModifier(backgroundColor: backgroundColor, foregroundColor: foregroundColor, tintColor: tintColor))
     }
 }
 
@@ -45,6 +48,9 @@ extension View {
     NavigationStack {
         Text("My Text Text")
             .navigationTitle("Test title")
-            .navigationBarModifier(backgroundColor: .systemBackground, foregroundColor: .systemBlue, tintColor: nil, withSeparator: true)
+            .navigationBarModifier(
+                backgroundColor: .systemBackground,
+                foregroundColor: .systemBlue
+            )
     }
 }

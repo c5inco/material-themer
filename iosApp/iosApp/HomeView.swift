@@ -98,10 +98,12 @@ struct HomeView: View {
             }
             .toolbarBackground(.visible, for: .tabBar)
             .navigationBarModifier(
+                backgroundColor: UIColor(toSwiftUiColor(kotlinColor: colorScheme.surface)),
                 foregroundColor: UIColor(toSwiftUiColor(kotlinColor: colorScheme.onSurfaceVariant)),
                 tintColor: UIColor(toSwiftUiColor(kotlinColor: colorScheme.onSurfaceVariant)))
         }
         .accentColor(toSwiftUiColor(kotlinColor: primary))
+        .id(colorScheme)
     }
     
     func updateActiveSeedColor(color: KotlinColor) {
