@@ -7,7 +7,8 @@ let seedColors = [
     KotlinColor(red: 0.462745098, green: 0.6117647059, blue: 0.8745098039, alpha: 1.0),
     KotlinColor(red: 1.0, green: 0.8705882353, blue: 0.2470588235, alpha: 1.0),
     KotlinColor(red: 0.2745098039, green: 0.2392156863, blue: 0.8745098039, alpha: 1.0),
-    KotlinColor(red: 0.9529411765, green: 0.09411764706, blue: 0.7843137255, alpha: 1.0)
+    KotlinColor(red: 0.9529411765, green: 0.09411764706, blue: 0.7843137255, alpha: 1.0),
+    KotlinColor(red: 0.9490196078, green: 0.2862745098, blue: 0.003921568627, alpha: 1.0)
 ]
 
 func toSwiftUiColor(kotlinColor: KotlinColor) -> Color {
