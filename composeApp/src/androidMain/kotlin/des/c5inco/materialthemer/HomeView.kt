@@ -75,7 +75,7 @@ fun HomeView(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Form.route) {
-                Text("Form")
+                FormView()
             }
             composable(Screen.Cards.route) {
                 Text("Cards")
