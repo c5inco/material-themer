@@ -6,12 +6,8 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import com.materialkolor.DynamicMaterialTheme
-import com.materialkolor.PaletteStyle
+import des.c5inco.materialthemer.ui.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,19 +26,11 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            DynamicMaterialTheme(
-                seedColor = Color.Red,
+            AppTheme(
                 useDarkTheme = useDarkIcons,
-                style = PaletteStyle.TonalSpot
             ) {
                 HomeView()
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    HomeView()
 }

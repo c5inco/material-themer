@@ -11,13 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import des.c5inco.materialthemer.ui.theme.AppTheme
 
 sealed class Screen(
     val route: String,
@@ -86,8 +87,10 @@ fun HomeView(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 private fun HomeViewPreview() {
-    HomeView()
+    AppTheme {
+        HomeView()
+    }
 }
