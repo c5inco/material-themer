@@ -1,3 +1,7 @@
+package ui
+
+import getPlatform
+
 class Greeting {
     private val platform = getPlatform()
 
