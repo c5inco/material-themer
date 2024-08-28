@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -119,13 +120,23 @@ fun FormView(
             ) {
                 FormRow {
                     Row {
-                        FilledIconButton(onClick = {}) {
+                        FilledIconButton(
+                            onClick = {},
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceBright
+                            )
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_remove),
                                 contentDescription = null,
                             )
                         }
-                        FilledIconButton(onClick = {}) {
+                        FilledIconButton(
+                            onClick = {},
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceBright
+                            )
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_add),
                                 contentDescription = null,
