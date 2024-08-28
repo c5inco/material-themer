@@ -25,12 +25,7 @@ class MainActivity : ComponentActivity() {
                 )
                 onDispose {}
             }
-
-            AppTheme(
-                useDarkTheme = useDarkIcons,
-            ) {
-                HomeView()
-            }
+            HomeView()
         }
     }
 }

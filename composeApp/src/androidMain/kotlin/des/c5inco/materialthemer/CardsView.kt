@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
@@ -19,7 +20,10 @@ import des.c5inco.materialthemer.ui.theme.AppTheme
 @Composable
 fun CardsView(
     modifier: Modifier = Modifier,
+    activeSeedColor: Color,
+    onSeedColorChange: (Color) -> Unit = { _ ->},
     activePaletteStyle: PaletteStyle = PaletteStyle.TonalSpot,
+    onPaletteChange: (PaletteStyle) -> Unit = { _ ->}
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
@@ -27,7 +31,11 @@ fun CardsView(
         topBar = {
             SharedTopAppBar(
                 title = { Text("$activePaletteStyle cards") },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                activeSeedColor = activeSeedColor,
+                onSeedColorChange = onSeedColorChange,
+                activePaletteStyle = activePaletteStyle,
+                onPaletteChange = onPaletteChange
             )
         },
         modifier = modifier
@@ -50,6 +58,6 @@ fun CardsView(
 @Composable
 private fun CardsViewPreview() {
     AppTheme {
-        CardsView()
+        CardsView(activeSeedColor = seedColors.first())
     }
 }

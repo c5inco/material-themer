@@ -26,6 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -37,15 +38,22 @@ import des.c5inco.materialthemer.ui.theme.AppTheme
 @Composable
 fun FormView(
     modifier: Modifier = Modifier,
+    activeSeedColor: Color,
+    onSeedColorChange: (Color) -> Unit = { _ -> },
     activePaletteStyle: PaletteStyle = PaletteStyle.TonalSpot,
+    onPaletteChange: (PaletteStyle) -> Unit = { _ -> },
 ) {
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
         topBar = {
             SharedTopAppBar(
+                scrollBehavior = scrollBehavior,
+                activeSeedColor = activeSeedColor,
+                onSeedColorChange = onSeedColorChange,
+                activePaletteStyle = activePaletteStyle,
+                onPaletteChange = onPaletteChange,
                 title = { Text("$activePaletteStyle form") },
-                scrollBehavior = scrollBehavior
             )
         },
         modifier = modifier
@@ -186,6 +194,8 @@ private fun FormRow(
 @Composable
 private fun FormViewPreview() {
     AppTheme {
-        FormView()
+        FormView(
+            activeSeedColor = seedColors.first()
+        )
     }
 }
