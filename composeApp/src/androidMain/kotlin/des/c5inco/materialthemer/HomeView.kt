@@ -41,12 +41,13 @@ val navigationItems = listOf(
 )
 
 val seedColors = listOf(
-    Color.Red,
-    Color.Blue,
-    Color.Green,
-    Color.Yellow,
-    Color.Magenta,
-    Color.Cyan,
+    Color(0xFFB23B14),
+    Color(0xFF63A002),
+    Color(0xFF769FAF),
+    Color(0xFFFFE040),
+    Color(0xFF463CAF),
+    Color(0xFFF219CA),
+    Color(0xFFF14B01)
 )
 
 @Composable
@@ -96,7 +97,7 @@ fun HomeView(
             NavHost(
                 navController = navController,
                 startDestination = Screen.Cards.route,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
             ) {
                 composable(Screen.Form.route) {
                     FormView(
