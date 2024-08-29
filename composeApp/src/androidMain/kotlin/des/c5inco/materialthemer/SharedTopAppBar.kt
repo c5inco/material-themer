@@ -17,6 +17,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
@@ -50,7 +52,12 @@ fun SharedTopAppBar(
     MediumTopAppBar(
         title = title,
         navigationIcon = {
-            IconButton(onClick = {}) {
+            IconButton(
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+                onClick = {}
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_hmd),
                     contentDescription = null
@@ -59,10 +66,15 @@ fun SharedTopAppBar(
         },
         actions = {
             Box {
-                IconButton(onClick = { expandMenu = true }) {
+                IconButton(
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    ),
+                    onClick = { expandMenu = true }
+                ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_palette),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
                 DropdownMenu(
