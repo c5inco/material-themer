@@ -16,6 +16,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
@@ -156,6 +157,10 @@ fun FormView(
                     Switch(
                         checked = isSwitchChecked,
                         onCheckedChange = { isSwitchChecked = it },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.tertiary,
+                            checkedThumbColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        )
                     )
                 }
             }
