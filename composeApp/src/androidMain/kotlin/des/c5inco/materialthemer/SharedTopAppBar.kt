@@ -7,6 +7,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -17,7 +18,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumTopAppBar
@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.materialkolor.PaletteStyle
+import getPlatform
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,6 +135,17 @@ fun SharedTopAppBar(
                                 onPaletteChange(item)
                                 expandMenu = false
                             }
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 4.dp, horizontal = 12.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Version: ${getPlatform().name}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }

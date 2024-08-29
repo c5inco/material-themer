@@ -162,6 +162,8 @@ struct ToolbarView: ToolbarContent {
                         }
                     }
                 }
+                
+                Text("Version: \(getPlatform().name)")
             } label: {
                 Image(systemName: "swatchpalette.fill")
                     .imageScale(.large)
